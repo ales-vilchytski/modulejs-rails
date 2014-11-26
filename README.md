@@ -28,9 +28,30 @@ Or install it yourself as:
 
 ## Usage
 
-Require in Assets Pipeline manifest
+Require _modulejs_ in Assets Pipeline manifest
 
     //= require 'modulejs'
+    
+Define your own modules (_this_ in functions points to _window_):
+
+```javascript
+modulejs.define('bar', ['foo'], function (foo) {
+    // module setup code and definitions
+    return some_bar_object;
+});
+```
+
+Or setup 3rd party code:
+```javascript
+modulejs.define('foo', Foo);
+```
+
+And require them when needed:
+
+```javascript
+var bar = modulejs.require('bar');
+bar.doStuff();
+```
 
 ## Contributing
 
