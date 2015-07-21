@@ -53,7 +53,7 @@ var bar = modulejs.require('bar');
 bar.doStuff();
 ```
 
-See full documentation see: https://larsjung.de/modulejs/
+See full documentation here: https://larsjung.de/modulejs/
 
 ## Contributing
 
@@ -62,3 +62,5 @@ See full documentation see: https://larsjung.de/modulejs/
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+
