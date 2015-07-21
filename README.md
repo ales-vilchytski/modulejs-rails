@@ -8,7 +8,7 @@ When you want to use modules in JavaScript you should solve next problems:
 1. Load scripts with dependencies, usually in big concatenated JavaScript file
 2. Execute scripts and dependencies in proper order
 
-Rails solves problem 1 by Assets Pipeline, modulejs solves problem 2.
+Rails solves problem #1 by Assets Pipeline, modulejs solves problem #2.
 
 ## Installation
 
@@ -52,6 +52,8 @@ And require them when needed:
 var bar = modulejs.require('bar');
 bar.doStuff();
 ```
+
+See full documentation see: https://larsjung.de/modulejs/
 
 ## Contributing
 
