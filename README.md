@@ -1,6 +1,6 @@
 # modulejs for Ruby on Rails 4 Assets Pipeline
 
-Lightweight JavaScript module system (http://larsjung.de/modulejs/).
+Lightweight JavaScript module system (http://larsjung.de/modulejs/), v2.2.0.
 Inspired by article: https://www.reinteractive.net/posts/172-a-better-way-to-modularise-your-js-in-rails
 
 When you want to use modules in JavaScript you should solve next problems:
