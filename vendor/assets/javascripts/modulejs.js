@@ -1,245 +1,260 @@
-/* modulejs 1.9.0 - http://larsjung.de/modulejs/ */
-(function (root, factory) {
-'use strict';
+/*! modulejs v2.2.0 - https://larsjung.de/modulejs/ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["modulejs"] = factory();
+	else
+		root["modulejs"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-// istanbul ignore else
-if (typeof exports === 'object') {
-    module.exports = factory();
-} else {
-    root.modulejs = factory();
-}
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-}(this, function () {
-    'use strict';
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-    var OBJ_PROTO = Object.prototype;
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
 
-    // Returns a function that returns `true` if `x` is of the correct
-    // `type`, otherwise `false`.
-    function _create_is_x_fn(type) {
-        return function (x) {
-            return OBJ_PROTO.toString.call(x) === '[object ' + type + ']';
-        };
-    }
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-    // Type checking functions.
-    var isArray = _create_is_x_fn('Array');
-    var isFunction = _create_is_x_fn('Function');
-    var isString = _create_is_x_fn('String');
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 
-    // Short cut for `hasOwnProperty`.
-    function has(x, id) {
-        return x !== undefined && x !== null && OBJ_PROTO.hasOwnProperty.call(x, id);
-    }
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
-    // Iterates over all elements af an array or all own keys of an object.
-    function each(x, fn) {
-        if (x && x.length) {
-            for (var i = 0, l = x.length; i < l; i += 1) {
-                fn(x[i], i, x);
-            }
-        } else {
-            for (var k in x) {
-                if (has(x, k)) {
-                    fn(x[k], k, x);
-                }
-            }
-        }
-    }
 
-    // Returns `true` if `x` contains `val`, otherwise `false`.
-    function contains(x, val) {
-        if (x && x.length) {
-            for (var i = 0, l = x.length; i < l; i += 1) {
-                if (x[i] === val) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-    // Returns an new array containing no duplicates. Preserves first
-    // occurence and order.
-    function uniq(x) {
-        var result = [];
-        each(x, function (val) {
-            if (!contains(result, val)) {
-                result.push(val);
-            }
-        });
-        return result;
-    }
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-    // Throws an error if `expression` is falsy.
-    function assert(expression, message) {
-        if (!expression) {
-            throw new Error('[modulejs] ' + message);
-        }
-    }
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-    function create() {
-        // Module definitions.
-        var definitions = {};
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-        // Module instances.
-        var instances = {};
+	'use strict';
 
-        // Resolves `id` to an object. If `mixed` is `true` only returns
-        // dependency-IDs. If `mixed` is an object it is used instead of the
-        // already memorized `instances` to allow mock-dependencies. `stack`
-        // is used internal to check for circular dependencies.
-        function resolve(id, mixed, stack) {
+	var _require = __webpack_require__(1),
+	    assert = _require.assert,
+	    forOwn = _require.forOwn,
+	    has = _require.has,
+	    resolve = _require.resolve;
 
-            // check arguments
-            assert(isString(id), 'id must be string: ' + id);
-            var onlyDepIds = mixed === true;
-            var resolvedInstances = (onlyDepIds ? undefined : mixed) || instances;
+	var create = function create() {
+	    // Module definitions.
+	    var definitions = {};
 
-            // if a module is required that was already created return that
-            // object
-            if (!onlyDepIds && has(resolvedInstances, id)) {
-                return resolvedInstances[id];
-            }
+	    // Module instances.
+	    var instances = {};
 
-            // check if `id` is defined
-            var def = definitions[id];
-            assert(def, 'id not defined: ' + id);
+	    // Defines a module for `id: String`, optional `deps: Array[String]`,
+	    // `def: mixed`.
+	    var define = function define(id, deps, def) {
+	        // sort arguments
+	        if (def === undefined) {
+	            var _ref = [[], deps];
+	            deps = _ref[0];
+	            def = _ref[1];
+	        }
+	        // check arguments
+	        assert(typeof id === 'string', 'id must be string: ' + id);
+	        assert(!has(definitions, id), 'id already defined: ' + id);
+	        assert(Array.isArray(deps), 'deps must be array: ' + id);
 
-            // copy resolve stack and add this `id`
-            stack = (stack || []).slice();
-            stack.push(id);
+	        // accept definition
+	        definitions[id] = {
+	            id: id,
+	            deps: deps,
+	            fn: typeof def === 'function' ? def : function () {
+	                return def;
+	            }
+	        };
+	    };
 
-            // if `onlyDepIds` this will hold the dependency-IDs, otherwise it
-            // will hold the dependency-objects
-            var deps = [];
+	    // Returns an instance for `id`. If a `mocks` object is given, it is
+	    // used to resolve the dependencies.
+	    var require = function require(id, mocks) {
+	        assert(typeof id === 'string', 'id must be string: ' + id);
+	        return resolve(definitions, mocks || instances, id);
+	    };
 
-            each(def.deps, function (depId) {
+	    // Returns an object that holds infos about the current definitions
+	    // and dependencies.
+	    var state = function state() {
+	        var res = {};
 
-                // check for circular dependencies
-                assert(!contains(stack, depId), 'circular dependencies: ' + depId + ' in ' + stack);
+	        forOwn(definitions, function (def, id) {
+	            res[id] = {
 
-                if (onlyDepIds) {
-                    deps = deps.concat(resolve(depId, mixed, stack));
-                    deps.push(depId);
-                } else {
-                    deps.push(resolve(depId, mixed, stack));
-                }
-            });
+	                // direct dependencies
+	                deps: def.deps.slice(),
 
-            // if `onlyDepIds` return only dependency-ids in right order
-            if (onlyDepIds) {
-                return uniq(deps);
-            }
+	                // transitive dependencies
+	                reqs: resolve(definitions, null, id),
 
-            // create, memorize and return object
-            var obj = def.fn.apply(undefined, deps);
-            resolvedInstances[id] = obj;
-            return obj;
-        }
+	                // already initiated/required
+	                init: has(instances, id)
+	            };
+	        });
 
-        // Defines a module for `id: String`, optional `deps: Array[String]`,
-        // `def: mixed`.
-        function define(id, deps, def) {
+	        forOwn(definitions, function (def, id) {
+	            var inv = [];
 
-            // sort arguments
-            if (arguments.length < 3) {
-                def = deps;
-                deps = [];
-            }
-            // check arguments
-            assert(isString(id), 'id must be string: ' + id);
-            assert(!has(definitions, id), 'id already defined: ' + id);
-            assert(isArray(deps), 'deps must be array: ' + id);
+	            forOwn(definitions, function (def2, id2) {
+	                if (res[id2].reqs.indexOf(id) >= 0) {
+	                    inv.push(id2);
+	                }
+	            });
 
-            // accept definition
-            definitions[id] = {
-                id: id,
-                deps: deps,
-                fn: isFunction(def) ? def : function () { return def; }
-            };
-        }
+	            // all inverse dependencies
+	            res[id].reqd = inv;
+	        });
 
-        // Returns an instance for `id`. If a `mocks` object is given, it is
-        // used to resolve the dependencies.
-        function require(id, mocks) {
+	        return res;
+	    };
 
-            return resolve(id, mocks);
-        }
+	    // Returns a string that displays module dependencies.
+	    var log = function log(inv) {
+	        var out = '\n';
 
-        // Returns an object that holds infos about the current definitions
-        // and dependencies.
-        function state() {
+	        forOwn(state(), function (st, id) {
+	            var list = inv ? st.reqd : st.reqs;
+	            out += (st.init ? '*' : ' ') + ' ' + id + ' -> [ ' + list.join(', ') + ' ]\n';
+	        });
 
-            var res = {};
+	        return out;
+	    };
 
-            each(definitions, function (def, id) {
+	    return {
+	        create: create,
+	        define: define,
+	        log: log,
+	        require: require,
+	        state: state,
+	        _d: definitions,
+	        _i: instances
+	    };
+	};
 
-                res[id] = {
+	module.exports = create();
 
-                    // direct dependencies
-                    deps: def.deps.slice(),
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
 
-                    // transitive dependencies
-                    reqs: resolve(id, true),
+	"use strict";
 
-                    // already initiated/required
-                    init: has(instances, id)
-                };
-            });
+	// Throws an error if `expr` is falsy.
+	var assert = function assert(expr, msg) {
+	    if (!expr) {
+	        throw new Error("[modulejs] " + msg);
+	    }
+	};
 
-            each(definitions, function (def, id) {
+	// Iterates over all own props of an object.
+	var forOwn = function forOwn(x, fn) {
+	    Object.keys(x).forEach(function (k) {
+	        return fn(x[k], k);
+	    });
+	};
 
-                var inv = [];
-                each(definitions, function (def2, id2) {
+	// Short cut for `hasOwnProperty`.
+	var has = function has(x, id) {
+	    return (x || {}).hasOwnProperty(id);
+	};
 
-                    if (contains(res[id2].reqs, id)) {
-                        inv.push(id2);
-                    }
-                });
+	// Returns an new array containing no duplicates. Preserves first occurence and
+	// order.
+	var uniq = function uniq(x) {
+	    var cache = {};
+	    return x.filter(function (val) {
+	        var res = !cache[val];
+	        cache[val] = 1;
+	        return res;
+	    });
+	};
 
-                // all inverse dependencies
-                res[id].reqd = inv;
-            });
+	// Resolves `id` to an object for the given definitions `defs` and already
+	// instantiated objects `insts`. Adds any new instances to `insts`. If `insts`
+	// is null it only resolves dependency IDs.
+	// `stack` is used internal to check for circular dependencies.
+	var resolve = function resolve(defs, insts, id, stack) {
+	    var onlyDepIds = !insts;
 
-            return res;
-        }
+	    // if a module is required that was already created return that object
+	    if (!onlyDepIds && has(insts, id)) {
+	        return insts[id];
+	    }
 
-        // Returns a string that displays module dependencies.
-        function log(inv) {
+	    // check if `id` is defined
+	    var def = defs[id];
+	    assert(def, "id not defined: " + id);
 
-            var out = '\n';
+	    // copy resolve stack and add this `id`
+	    stack = (stack || []).slice();
+	    stack.push(id);
 
-            each(state(), function (st, id) {
+	    // if `onlyDepIds` this will hold the dependency-IDs, otherwise it
+	    // will hold the dependency-objects
+	    var deps = [];
 
-                var list = inv ? st.reqd : st.reqs;
-                out += (st.init ? '* ' : '  ') + id + ' -> [ ' + list.join(', ') + ' ]\n';
-            });
+	    def.deps.forEach(function (depId) {
+	        // check for circular dependencies
+	        assert(stack.indexOf(depId) < 0, "circular dependencies: " + depId + " in " + stack);
 
-            return out;
-        }
+	        var depDeps = resolve(defs, insts, depId, stack);
+	        if (onlyDepIds) {
+	            deps = deps.concat(depDeps);
+	            deps.push(depId);
+	        } else {
+	            deps.push(depDeps);
+	        }
+	    });
 
-        return {
-            create: create,
-            define: define,
-            log: log,
-            require: require,
-            state: state,
-            _private: {
-                assert: assert,
-                contains: contains,
-                definitions: definitions,
-                each: each,
-                has: has,
-                instances: instances,
-                isArray: isArray,
-                isFunction: isFunction,
-                isString: isString,
-                resolve: resolve,
-                uniq: uniq
-            }
-        };
-    }
+	    if (onlyDepIds) {
+	        // return only dependency-ids in correct order
+	        return uniq(deps);
+	    }
 
-    return create();
-}));
+	    // create, memorize and return object
+	    // using def.fn(...deps) instead would cost ~120B uglified
+	    var obj = def.fn.apply(undefined, deps);
+	    insts[id] = obj;
+	    return obj;
+	};
+
+	module.exports = {
+	    assert: assert,
+	    forOwn: forOwn,
+	    has: has,
+	    resolve: resolve,
+	    uniq: uniq
+	};
+
+/***/ }
+/******/ ])
+});
+;
